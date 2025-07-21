@@ -4,4 +4,4 @@ Tech stack used
 2)Tailwaind css
 3)Javascript
 
-Live Link - 
+Live Link - https://cozyshop-ecommerce.netlify.app/

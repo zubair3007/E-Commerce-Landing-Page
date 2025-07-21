@@ -1,6 +1,6 @@
-// @copyright 2025 Zubair
 'use strict';
 
+// add event on multiple elements
 const addEventOnElem = function (elements, eventType, callback) {
   for (let i = 0; i < elements.length; i++) {
     elements[i].addEventListener(eventType, callback);
@@ -45,3 +45,51 @@ const activeHeader = function () {
 }
 
 window.addEventListener('scroll', activeHeader);
+
+// Custom slider
+
+const $sliderContainers = document.querySelectorAll('[data-slider-container]');
+
+function sliderInitial($sliderContainer) {
+  const $slider = $sliderContainer.querySelector('[data-slider]');
+  const $prevBtn = $sliderContainer.querySelector('[data-prev-btn]');
+  const $nextBtn = $sliderContainer.querySelector('[data-next-btn]');
+
+  function nextSlide() {
+    $slider.appendChild($slider.firstElementChild);
+  }
+  $nextBtn.addEventListener('click', nextSlide);
+
+  function prevSlide() {
+    $slider.prepend($slider.lastElementChild);
+  }
+  $prevBtn.addEventListener('click', prevSlide);
+
+  let autoSlideIntervalId;
+
+  function autoSlide() {
+    autoSlideIntervalId = setInterval(function () {
+      nextSlide();
+    }, 2000);
+  }
+
+  autoSlide();
+
+  function deleteAutoSliding() {
+    clearInterval(autoSlideIntervalId);
+  }
+
+  // Stop auto sliding when mouseover
+  $slider.addEventListener('mouseover', deleteAutoSliding);
+  $prevBtn.addEventListener('mouseover', deleteAutoSliding);
+  $nextBtn.addEventListener('mouseover', deleteAutoSliding);
+
+  // Resume auto sliding when mouseout
+  $slider.addEventListener('mouseout', autoSlide);
+  $prevBtn.addEventListener('mouseout', autoSlide);
+  $nextBtn.addEventListener('mouseout', autoSlide);
+}
+
+for (let i = 0; i < $sliderContainers.length; i++) {
+  sliderInitial($sliderContainers[i]);
+}
